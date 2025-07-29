@@ -31,14 +31,14 @@ Maven 3.x instalado
 
 Clone o repositório:
 
-git clone https://github.com/oileans/outsera-mobile
+git clone https://github.com/oileans/outsera-mobile.git
 cd outsera-mobile
 
 Configure suas variáveis de ambiente:
 
 ANDROID_HOME apontando para o SDK Android
 
-Garanta que o Appium Server esteja rodando:
+Garanta que o Appium Server esteja rodando.
 
 🏃 Executando os Testes
 
@@ -46,4 +46,4 @@ Execute o comando Maven abaixo para rodar todos os cenários:
 
 mvn clean test
 
-Observação: O plugin Surefire está configurado para executar apenas as classes em src/test/java/runner/Test*.java.
+
