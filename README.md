@@ -31,7 +31,7 @@ Maven 3.x instalado
 
 Clone o repositório:
 
-git clone [https://github.com/seu-usuario/outsera-mobile.git](https://github.com/oileans/outsera-web)
+git clone https://github.com/oileans/outsera-mobile
 cd outsera-mobile
 
 Configure suas variáveis de ambiente:
