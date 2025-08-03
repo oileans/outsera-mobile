@@ -43,24 +43,23 @@ jobs:
           disable-animations: true
           script: |
             echo "Inicializando testes mobile"
-            adb devices
 
-            echo "Aguardando dispositivo conectar..."
+            # AGUARDAR O EMULADOR ESTAR DISPONÍVEL
             adb wait-for-device
 
-            echo "Verificando boot do emulador..."
+            echo "Verificando boot do sistema Android..."
             bootcomplete=""
             until [[ "$bootcomplete" == "1" ]]; do
-              echo "Aguardando boot do sistema Android..."
+              echo "Aguardando sys.boot_completed..."
               sleep 5
-              bootcomplete=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
+              bootcomplete=$(adb shell getprop sys.boot_completed | tr -d '\r')
             done
 
-            echo "Emulador pronto. Desbloqueando tela..."
+            echo "Desbloqueando tela..."
             adb shell input keyevent 82
 
-            echo "Executando testes"
-            mvn clean test -Dappium.server=http://127.0.0.1:4723
+            echo "Executando testes..."
+            mvn clean verify -Dappium.server=http://127.0.0.1:4723
 
       - name: Verificar se index.html foi gerado
         run: |
