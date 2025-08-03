@@ -64,6 +64,18 @@ jobs:
             echo "Executando testes"
             mvn clean verify -Dappium.server=http://127.0.0.1:4723
 
+      - name: Verificar se index.html foi gerado
+        run: |
+          echo "Verificando existência do relatório..."
+          if [ -f target/cucumber-reports/index.html ]; then
+            echo "index.html encontrado!"
+            ls -lh target/cucumber-reports/index.html
+          else
+            echo "index.html NÃO encontrado!"
+            ls -lh target/cucumber-reports/ || true
+          fi
+
+
       - name: Publicar Cucumber HTML Report no GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
