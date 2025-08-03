@@ -53,15 +53,15 @@ jobs:
             echo "Verificando boot do emulador..."
             bootcomplete=""
             until [[ "$bootcomplete" == "1" ]]; do
-              echo "⏳ Aguardando boot do sistema Android..."
+              echo "Aguardando boot do sistema Android..."
               sleep 5
               bootcomplete=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
             done
 
-            echo "✅ Emulador pronto. Desbloqueando tela..."
+            echo "Emulador pronto. Desbloqueando tela..."
             adb shell input keyevent 82
 
-            echo "🚀 Executando testes"
+            echo "Executando testes"
             mvn clean verify -Dappium.server=http://127.0.0.1:4723
 
       - name: Publicar Cucumber HTML Report no GitHub Pages
