@@ -1,49 +1,42 @@
-🚀 Tecnologias
+# 📱 Projeto de Testes Mobile com Appium
 
-Java 17
+Este projeto realiza testes automatizados em um aplicativo Android utilizando **Java + Appium + Cucumber + JUnit 4**.
 
-Maven
+---
 
-Appium Java Client 8.6.0
+## 🚀 Tecnologias Utilizadas
 
-Selenium Java 4.x
+- **Java 17**
+- **Maven**
+- **Appium Java Client 8.6.0**
+- **Selenium Java 4.x**
+- **Cucumber Java 7.14.0**
+- **Cucumber JUnit**
+- **JUnit 4.12**
+- **Maven Surefire Plugin** (para execução de testes)
 
-Cucumber Java 7.14.0
+---
 
-Cucumber JUnit
+## ⚙️ Pré-requisitos
 
-JUnit 4.12
+Certifique-se de ter os seguintes requisitos instalados e configurados:
 
-Maven Surefire Plugin (para execução de testes)
+- ✅ Java JDK 17
+- ✅ Maven 3.x
+- ✅ Android SDK (com emulador ou dispositivo real configurado)
+- ✅ Appium Server rodando em: `http://127.0.0.1:4723/wd/hub`
+- ✅ Variável de ambiente `ANDROID_HOME` configurada e apontando para o SDK
 
+---
 
-⚙️ Pré-requisitos
+## 🔧 Instalação
 
-Java JDK 17 instalado
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/oileans/outsera-mobile.git
+   cd outsera-mobile
 
-Android SDK / Emulador (ou dispositivo real) configurado
-
-Appium Server rodando em http://127.0.0.1:4723/wd/hub
-
-Maven 3.x instalado
-
-🔧 Instalação
-
-Clone o repositório:
-
-git clone https://github.com/oileans/outsera-mobile.git
-cd outsera-mobile
-
-Configure suas variáveis de ambiente:
-
-ANDROID_HOME apontando para o SDK Android
-
-Garanta que o Appium Server esteja rodando.
-
-🏃 Executando os Testes
-
-Execute o comando Maven abaixo para rodar todos os cenários:
-
-mvn clean test
-
+1. 🏃 Executando os Testes
+   ```bash
+   mvn clean test
 
