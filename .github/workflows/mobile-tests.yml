@@ -35,14 +35,12 @@ jobs:
 
       - name: Rodar emulador Android com Appium
         uses: reactivecircus/android-emulator-runner@v2
-        continue-on-error: true
         with:
           api-level: 30
           target: google_apis
           arch: x86_64
           profile: pixel
           disable-animations: true
-          disable-snapshot: true
           script: |
             echo "Inicializando testes mobile"
             adb devices
@@ -62,7 +60,7 @@ jobs:
             adb shell input keyevent 82
 
             echo "Executando testes"
-            mvn clean verify -Dappium.server=http://127.0.0.1:4723
+            mvn clean test -Dappium.server=http://127.0.0.1:4723
 
       - name: Verificar se index.html foi gerado
         run: |
@@ -75,7 +73,6 @@ jobs:
             ls -lh target/cucumber-reports/ || true
           fi
 
-
       - name: Publicar Cucumber HTML Report no GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
@@ -83,6 +80,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./target/cucumber-reports
           publish_branch: gh-pages
+
+      - name: Listar pasta target para depuração
+        run: ls -R target || true
 
       - name: Upload do log do Appium
         if: always()
