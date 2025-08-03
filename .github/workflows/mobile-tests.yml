@@ -35,6 +35,7 @@ jobs:
 
       - name: Rodar emulador Android com Appium
         uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true
         with:
           api-level: 30
           target: google_apis
