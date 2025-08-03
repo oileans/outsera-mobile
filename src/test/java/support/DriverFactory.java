@@ -22,40 +22,44 @@ public class DriverFactory {
     }
 
     /**
-     * Cria e configura o AndroidDriver para Appium 2.x
+     * Cria e configura o AndroidDriver para execução no Sauce Labs
      */
     private static void createDriver() {
         try {
-            // Caminho flexível do APK
-            String apkPath = System.getProperty("user.dir") + "/src/test/resources/app/Android-MyDemoAppRN.1.3.0.build-244.apk";
+            String username = System.getenv("SAUCE_USERNAME");
+            String accessKey = System.getenv("SAUCE_ACCESS_KEY");
 
-            // URL do Appium Server
-            String appiumServerUrl = System.getProperty("appium.server", "http://127.0.0.1:4723");
+            if (username == null || accessKey == null) {
+                throw new RuntimeException("SAUCE_USERNAME ou SAUCE_ACCESS_KEY não definidos nas variáveis de ambiente.");
+            }
 
-            Capabilities opt = new BaseOptions()
+            // APK remoto no Sauce Storage ou por upload prévio
+            String app = "storage:filename=Android-MyDemoAppRN.1.3.0.build-244.apk";
+
+            // URL remota do Sauce Labs
+            String sauceUrl = String.format("https://%s:%s@ondemand.us-west-1.saucelabs.com:443/wd/hub", username, accessKey);
+
+            Capabilities capabilities = new BaseOptions()
                     .amend("platformName", "Android")
-                    .amend("appium:deviceName", "emulator-5554")
+                    .amend("appium:deviceName", "Android GoogleAPI Emulator")
+                    .amend("appium:platformVersion", "11.0")
+                    .amend("appium:app", app)
                     .amend("appium:automationName", "UiAutomator2")
-                    .amend("appium:app", apkPath)
-                    .amend("appium:appPackage", "com.saucelabs.mydemoapp.rn")
-                    .amend("appium:appActivity", ".MainActivity")
                     .amend("appium:noReset", false)
                     .amend("appium:newCommandTimeout", 300)
-                    .amend("appium:ensureWebviewsHavePages", true)
-                    .amend("appium:nativeWebScreenshot", true)
-                    .amend("appium:connectHardwareKeyboard", true);
+                    .amend("sauce:options", new java.util.HashMap<String, Object>() {{
+                        put("name", "Mobile Test - Appium Sauce Labs");
+                        put("build", "Build-01");
+                    }});
 
-            driver = new AndroidDriver(new URL(appiumServerUrl), opt);
+            driver = new AndroidDriver(new URL(sauceUrl), capabilities);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         } catch (Exception e) {
-            throw new RuntimeException("Falha ao iniciar AndroidDriver", e);
+            throw new RuntimeException("Falha ao iniciar AndroidDriver no Sauce Labs", e);
         }
     }
 
-    /**
-     * Encerra a sessão e zera o driver
-     */
     public static void quitDriver() {
         if (driver != null) {
             driver.quit();
