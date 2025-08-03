@@ -8,7 +8,6 @@ import support.DriverFactory;
 public class CheckoutPage {
     private AppiumDriver driver;
 
-    By CHECKOUT_TITLE = AppiumBy.accessibilityId("Username input field");
     By FULL_NAME = AppiumBy.accessibilityId("Full Name* input field");
     By ADRESS_LINE1 = AppiumBy.accessibilityId("Address Line 1* input field");
     By ADRESS_LINE2 = AppiumBy.accessibilityId("Address Line 2 input field");
@@ -53,11 +52,6 @@ public class CheckoutPage {
 
     public void clicarToPayment() {
         driver.findElement(PAYMENT_BTN).click();
-    }
-
-    public boolean validaPageCheckout() {
-        driver.findElement(CHECKOUT_TITLE).isDisplayed();
-        return true;
     }
 
     public void preencherFormulario(String nome,

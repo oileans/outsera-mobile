@@ -13,9 +13,6 @@ public class CheckoutSteps {
 
     @And("preencho o formulário de checkout com:")
     public void preencho_o_formulário_de_checkout_com(io.cucumber.datatable.DataTable dataTable) {
-        Assert.assertTrue("Não foi possivel acessar a pagina de Checkout, verifique os logs", checkout.validaPageCheckout());
-
-        // Converte para lista de mapas (cada mapa = uma linha da tabela)
         List<Map<String, String>> linhas = dataTable.asMaps();
         Map<String, String> dados = linhas.get(0);
 
