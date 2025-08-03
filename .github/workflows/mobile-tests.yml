@@ -46,7 +46,7 @@ jobs:
         env:
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-        run: mvn clean test -Dappium.server=https://$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.us-west-1.saucelabs.c_
+        run: mvn clean test -Dappium.server=https://$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.us-west-1.saucelabs.com:443/wd/hub
 
 
       - name: Publicar Cucumber HTML Report no GitHub Pages
