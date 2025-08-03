@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
   test-mobile:
@@ -19,6 +20,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Cache do repositório Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
 
       - name: Instalar Node.js e Appium
         uses: actions/setup-node@v3
@@ -40,19 +48,23 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel
-          disable-animations: false
+          disable-animations: true
           script: |
             echo "Inicializando testes mobile"
 
-            # AGUARDAR O EMULADOR ESTAR DISPONÍVEL
+            echo "Aguardando dispositivo..."
             adb wait-for-device
 
-            echo "Verificando boot do sistema Android..."
-            bootcomplete=""
-            until [[ "$bootcomplete" == "1" ]]; do
-              echo "Aguardando sys.boot_completed..."
+            echo "Aguardando sys.boot_completed..."
+            until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == "1" ]]; do
+              echo "Ainda não iniciou... aguardando"
               sleep 5
-              bootcomplete=$(adb shell getprop sys.boot_completed | tr -d '\r')
+            done
+
+            echo "Aguardando init.svc.bootanim stopped..."
+            until [[ "$(adb shell getprop init.svc.bootanim | tr -d '\r')" == "stopped" ]]; do
+              echo "Animação ainda rodando... aguardando"
+              sleep 5
             done
 
             echo "Desbloqueando tela..."
@@ -65,10 +77,10 @@ jobs:
         run: |
           echo "Verificando existência do relatório..."
           if [ -f target/cucumber-reports/index.html ]; then
-            echo "index.html encontrado!"
+            echo " index.html encontrado!"
             ls -lh target/cucumber-reports/index.html
           else
-            echo "index.html NÃO encontrado!"
+            echo " index.html NÃO encontrado!"
             ls -lh target/cucumber-reports/ || true
           fi
 
