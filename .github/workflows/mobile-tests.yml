@@ -58,23 +58,23 @@ jobs:
             echo "Aguardando sys.boot_completed..."
             until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == "1" ]]; do
               echo "Ainda não iniciou... aguardando"
-              sleep 10
+              sleep 40
             done
           
             echo "Aguardando init.svc.bootanim stopped..."
             until [[ "$(adb shell getprop init.svc.bootanim | tr -d '\r')" == "stopped" ]]; do
               echo "Animação ainda rodando... aguardando"
-              sleep 10
+              sleep 40
             done
           
             echo "Aguardando serviços Android estarem prontos..."
-            sleep 10
+            sleep 40
           
             echo "Desabilitando animações (reforço manual)..."
             for s in window_animation_scale transition_animation_scale animator_duration_scale; do
               until adb shell settings put global "$s" 0.0 2>/dev/null; do
                 echo "Tentando desativar $s..."
-                sleep 10
+                sleep 40
               done
             done
           
