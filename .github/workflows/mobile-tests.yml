@@ -21,13 +21,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Cache do repositório Maven
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
-
       - name: Instalar Node.js e Appium
         uses: actions/setup-node@v3
         with:
@@ -52,16 +45,16 @@ jobs:
           script: |
             echo "Inicializando testes mobile"
 
-            echo "Aguardando dispositivo..."
+            echo "Aguardando emulador ficar disponível..."
             adb wait-for-device
 
-            echo "Aguardando sys.boot_completed..."
+            echo "Verificando sys.boot_completed..."
             until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == "1" ]]; do
-              echo "Ainda não iniciou... aguardando"
+              echo "Sistema ainda não iniciou... aguardando"
               sleep 5
             done
 
-            echo "Aguardando init.svc.bootanim stopped..."
+            echo "Verificando init.svc.bootanim == stopped..."
             until [[ "$(adb shell getprop init.svc.bootanim | tr -d '\r')" == "stopped" ]]; do
               echo "Animação ainda rodando... aguardando"
               sleep 5
@@ -70,34 +63,10 @@ jobs:
             echo "Desbloqueando tela..."
             adb shell input keyevent 82
 
-            echo "Executando testes..."
-            mvn clean verify -Dappium.server=http://127.0.0.1:4723
+            echo "Desabilitando animações (modo seguro)..."
+            adb shell settings put global window_animation_scale 0.0 || echo "Falha window_animation_scale"
+            adb shell settings put global transition_animation_scale 0.0 || echo "Falha transition_animation_scale"
+            adb shell settings put global animator_duration_scale 0.0 || echo "Falha animator_duration_scale"
 
-      - name: Verificar se index.html foi gerado
-        run: |
-          echo "Verificando existência do relatório..."
-          if [ -f target/cucumber-reports/index.html ]; then
-            echo " index.html encontrado!"
-            ls -lh target/cucumber-reports/index.html
-          else
-            echo " index.html NÃO encontrado!"
-            ls -lh target/cucumber-reports/ || true
-          fi
-
-      - name: Publicar Cucumber HTML Report no GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/cucumber-reports
-          publish_branch: gh-pages
-
-      - name: Listar pasta target para depuração
-        run: ls -R target || true
-
-      - name: Upload do log do Appium
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: appium-log
-          path: appium.log
+            echo "Executando testes com Maven..."
+            mv
