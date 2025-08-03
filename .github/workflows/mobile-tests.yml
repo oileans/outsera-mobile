@@ -69,7 +69,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/cucumber-reports/final
+          publish_dir: ./target/cucumber-reports
           publish_branch: gh-pages
 
       - name: Upload do log do Appium
