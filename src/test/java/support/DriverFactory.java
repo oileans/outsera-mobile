@@ -26,9 +26,12 @@ public class DriverFactory {
      */
     private static void createDriver() {
         try {
-            String username = System.getenv("SAUCE_USERNAME");
-            String accessKey = System.getenv("SAUCE_ACCESS_KEY");
+//            String username = System.getenv("SAUCE_USERNAME");
+//            String accessKey = System.getenv("SAUCE_ACCESS_KEY");
 
+
+            String username = "oauth-5drzi8h8-105bb";
+            String accessKey = "2a736532-d041-4fe0-adc6-cee95ef93155";
 
             if (username == null || accessKey == null) {
                 throw new RuntimeException("SAUCE_USERNAME ou SAUCE_ACCESS_KEY não definidos nas variáveis de ambiente.");

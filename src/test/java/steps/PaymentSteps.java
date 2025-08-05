@@ -1,5 +1,6 @@
 package steps;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import org.junit.Assert;
 import pages.PaymentPage;
@@ -12,11 +13,11 @@ public class PaymentSteps {
 
 
     @And("concluo o checkout")
-    public void concluo_o_checkout(io.cucumber.datatable.DataTable dataTable) {
+    public void concluo_o_checkout(DataTable table) {
 
         Assert.assertTrue("Não foi possivel acessar a pagina de Pagamentos, verifique os logs", carrinho.conferirPedido());
 
-        List<Map<String, String>> linhas = dataTable.asMaps();
+        List<Map<String, String>> linhas = table.asMaps();
         Map<String, String> payment = linhas.get(0);
 
         String NAME = payment.get("Nome");
