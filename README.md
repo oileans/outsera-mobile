@@ -17,26 +17,7 @@ Este projeto realiza testes automatizados em um aplicativo Android utilizando **
 
 ---
 
-## ⚙️ Pré-requisitos
-
-Certifique-se de ter os seguintes requisitos instalados e configurados:
-
-- ✅ Java JDK 17
-- ✅ Maven 3.x
-- ✅ Android SDK (com emulador ou dispositivo real configurado)
-- ✅ Appium Server rodando em: `http://127.0.0.1:4723/wd/hub`
-- ✅ Variável de ambiente `ANDROID_HOME` configurada e apontando para o SDK
-
----
-
-## 🔧 Instalação
-
-1. Clone este repositório:
+##  Cucumber Report
    ```bash
-   git clone https://github.com/oileans/outsera-mobile.git
-   cd outsera-mobile
-
-1. 🏃 Executando os Testes
-   ```bash
-   mvn clean test
+   https://oileans.github.io/outsera-mobile/
 
